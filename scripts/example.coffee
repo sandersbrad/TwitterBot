@@ -8,10 +8,27 @@
 #
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
+$ = 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'
+
 module.exports = (robot) ->
 
-  robot.hear /badger/i, (res) ->
-    res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
+  robot.hear /trump, (res) ->
+    $.ajax({
+      url: 'https://api.twitter.com/1.1/statuses/user_timeline.json',
+      method: 'GET',
+      dataType: 'json',
+      data: {
+        user_id: 'realDonaldTrump',
+        count: '2'
+        api_key: 'gQlwxFYoeO71jn5WenHtV9OXD'
+      },
+      success: function (response) {
+        res.reply response
+      },
+      error: function (response) {
+        res.reply response
+      }
+      });
   #
   robot.respond /open the (.*) doors/i, (res) ->
     doorType = res.match[1]
