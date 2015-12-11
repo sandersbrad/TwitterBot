@@ -121,12 +121,12 @@ module.exports = (robot) ->
       msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN_SECRET environment variable."
       return
 
-    command = msg.match[2..4]
+    command = msg.match[2]
 
     if (command == 'help')
       doHelp(msg)
 
-    else if (command == 'new tweets about')
+    else if (command == 'new')
       doSearch(msg)
 
     else if (command == 'tweet')
