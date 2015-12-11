@@ -12,24 +12,57 @@ $ = 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'
 
 module.exports = (robot) ->
 
-  robot.hear /trump/, (res) ->
-    $.ajax({
-      url: 'https://api.twitter.com/1.1/statuses/user_timeline.json',
-      method: 'GET',
-      dataType: 'json',
-      data: {
-        user_id: 'realDonaldTrump',
-        count: '2'
-        api_key: 'gQlwxFYoeO71jn5WenHtV9OXD'
-      },
-      success: function (response) {
-        res.reply response
-      },
-      error: function (response) {
-        res.reply response
-      }
-      });
-  #
+  # robot.hear /trump/, (res) ->
+  #   $.ajax({
+  #     url: 'https://api.twitter.com/1.1/statuses/user_timeline.json',
+  #     method: 'GET',
+  #     dataType: 'json',
+  #     data: {
+  #       user_id: 'realDonaldTrump',
+  #       count: '2'
+  #       api_key: 'gQlwxFYoeO71jn5WenHtV9OXD'
+  #     },
+  #     success: function (response) {
+  #       res.reply response
+  #     },
+  #     error: function (response) {
+  #       res.reply response
+  #     }
+  #     });
+  # #
+
+  twit = undefined
+
+  robot.respond /(twitter|lasttweet)\s+(\S+)\s?(\d?)/i, (msg) ->
+    unless config.consumer_key
+      msg.send "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
+      return
+    unless config.consumer_secret
+      msg.send "Please set the HUBOT_TWITTER_CONSUMER_SECRET environment variable."
+      return
+    unless config.access_token
+      msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN environment variable."
+      return
+    unless config.access_token_secret
+      msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN_SECRET environment variable."
+      return
+
+    unless twit
+      twit = new Twit config
+
+    username = msg.match[2]
+    if msg.match[3] then count = msg.match[3] else count = 1
+
+    twit.get "statuses/user_timeline",
+      screen_name: escape(username)
+      count: count
+      include_rts: false
+      exclude_replies: true
+    , (err, reply) ->
+      return msg.send "Error" if err
+      return msg.send _.unescape(_.last(reply)['text']) if reply[0]['text']
+
+      
   robot.respond /open the (.*) doors/i, (res) ->
     doorType = res.match[1]
     if doorType is "pod bay"
