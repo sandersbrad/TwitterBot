@@ -8,7 +8,14 @@
 #
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
-$ = 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'
+_ = require "underscore"
+Twit = require "twit"
+config =
+  consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
+  consumer_secret: process.env.HUBOT_TWITTER_CONSUMER_SECRET
+  access_token: process.env.HUBOT_TWITTER_ACCESS_TOKEN
+  access_token_secret: process.env.HUBOT_TWITTER_ACCESS_TOKEN_SECRET
+
 
 module.exports = (robot) ->
 
@@ -62,7 +69,7 @@ module.exports = (robot) ->
       return msg.send "Error" if err
       return msg.send _.unescape(_.last(reply)['text']) if reply[0]['text']
 
-      
+
   robot.respond /open the (.*) doors/i, (res) ->
     doorType = res.match[1]
     if doorType is "pod bay"
