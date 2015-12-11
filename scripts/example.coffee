@@ -50,7 +50,7 @@ doSearch = (msg) ->
   return if !query
 
   twit = getTwit()
-  count = msg.match[1]
+  count = parseInt(msg.match[1])
   searchConfig =
     q: "#{query}",
     count: count,
