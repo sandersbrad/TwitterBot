@@ -42,7 +42,7 @@ doHelp = (msg) ->
   msg.send commands.join('\n')
 
 doSearch = (msg) ->
-  query = msg.match[5]
+  query = msg.match[4]
   return if !query
 
   twit = getTwit()
@@ -117,7 +117,7 @@ module.exports = (robot) ->
       msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN_SECRET environment variable."
       return
 
-    command = msg.match[2]
+    command = msg.match[1]
 
     if (command == 'help')
       doHelp(msg)
