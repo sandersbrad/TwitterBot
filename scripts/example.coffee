@@ -12,7 +12,7 @@ $ = 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'
 
 module.exports = (robot) ->
 
-  robot.hear /trump, (res) ->
+  robot.hear /trump/, (res) ->
     $.ajax({
       url: 'https://api.twitter.com/1.1/statuses/user_timeline.json',
       method: 'GET',
