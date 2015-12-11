@@ -20,10 +20,10 @@
 Twit = require "twit"
 
 config =
-  consumer_key: env.HUBOT_TWITTER_CONSUMER_KEY
-  consumer_secret: env.HUBOT_TWITTER_CONSUMER_SECRET
-  access_token: env.HUBOT_TWITTER_ACCESS_TOKEN
-  access_token_secret: env.HUBOT_TWITTER_ACCESS_TOKEN_SECRET
+  consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
+  consumer_secret: process.env.HUBOT_TWITTER_CONSUMER_SECRET
+  access_token: process.env.HUBOT_TWITTER_ACCESS_TOKEN
+  access_token_secret: process.env.HUBOT_TWITTER_ACCESS_TOKEN_SECRET
 
 twit = undefined
 
