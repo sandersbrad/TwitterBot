@@ -37,16 +37,20 @@ doHelp = (msg) ->
     "hubot twitter help\t\t\tShow this help menu",
     "hubot twitter search <query>\t\tSearch all public tweets",
     "hubot twitter user <query>\t\tGet a user's recent tweets",
-    "hubot [twitter] tweet <query>\t\tPost a tweet"
+    "hubot [twitter] tweet <query>\t\tPost a tweet",
+    "twitterbot show [num] new tweets about [search query]",
+    "twitterbot show [num] new tweets by [@user]",
+    "twitterbot show [num] random tweets by [@user]",
+    "twitterbot show [num] retweets by [@user]"
   ]
   msg.send commands.join('\n')
 
 doSearch = (msg) ->
-  query = msg.match[2]
+  query = msg.match[5]
   return if !query
 
   twit = getTwit()
-  count = 5
+  count = msg.match[1]
   searchConfig =
     q: "#{query}",
     count: count,
@@ -103,7 +107,7 @@ doTweet = (msg, tweet) ->
         msg.send "https://www.twitter.com/#{username}/status/#{id}"
 
 module.exports = (robot) ->
-  robot.respond /twitter (\S+)\s*(.+)?/i, (msg) ->
+  robot.respond /show (\S+)\s*(.+)?/i, (msg) ->
     unless config.consumer_key
       msg.send "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
       return
@@ -117,12 +121,12 @@ module.exports = (robot) ->
       msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN_SECRET environment variable."
       return
 
-    command = msg.match[1]
+    command = msg.match[2..4]
 
     if (command == 'help')
       doHelp(msg)
 
-    else if (command == 'search')
+    else if (command == 'new tweets about')
       doSearch(msg)
 
     else if (command == 'tweet')
