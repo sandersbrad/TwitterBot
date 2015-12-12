@@ -42,9 +42,8 @@ doHelp = (msg) ->
   ]
   msg.send commands.join('\n')
 
-doSearch = (msg) ->
-  query = msg.match[4]
-  return msg.send query
+doSearch = (msg, query) ->
+  return if !query
 
   twit = getTwit()
   count = 5
@@ -124,7 +123,7 @@ module.exports = (robot) ->
       doHelp(msg)
 
     else if (command == 'new')
-      doSearch(msg)
+      doSearch(msg, msg.match[4])
 
     else if (command == 'tweet')
       doTweet(msg, msg.match[2])
