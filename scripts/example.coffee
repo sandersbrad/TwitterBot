@@ -43,7 +43,7 @@ doHelp = (msg) ->
   msg.send commands.join('\n')
 
 doSearch = (msg) ->
-  query = msg.match[4]
+  query = msg.match[2]
   return if !query
 
   twit = getTwit()
