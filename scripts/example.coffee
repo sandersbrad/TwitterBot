@@ -37,7 +37,8 @@ doHelp = (msg) ->
     "hubot twitter help\t\t\tShow this help menu",
     "hubot twitter search <query>\t\tSearch all public tweets",
     "hubot twitter user <query>\t\tGet a user's recent tweets",
-    "hubot [twitter] tweet <query>\t\tPost a tweet"
+    "hubot [twitter] tweet <query>\t\tPost a tweet",
+    "hubot twitter new tweets about <query>"
   ]
   msg.send commands.join('\n')
 
