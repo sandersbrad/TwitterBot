@@ -44,7 +44,7 @@ doHelp = (msg) ->
 
 doSearch = (msg) ->
   query = msg.match[4]
-  return if !query
+  return msg.send query
 
   twit = getTwit()
   count = 5
