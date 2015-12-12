@@ -42,7 +42,8 @@ doHelp = (msg) ->
   ]
   msg.send commands.join('\n')
 
-doSearch = (msg, query) ->
+doSearch = (msg) ->
+  query = msg.match[4]
   return if !query
 
   twit = getTwit()
@@ -123,7 +124,7 @@ module.exports = (robot) ->
       doHelp(msg)
 
     else if (command == 'new')
-      doSearch(msg, msg.match[4])
+      doSearch(msg)
 
     else if (command == 'tweet')
       doTweet(msg, msg.match[2])
