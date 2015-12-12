@@ -72,7 +72,7 @@ doUser = (msg) ->
   return if !username
 
   twit = getTwit()
-  count = 5
+  count = parseInt(msg.match[1])
   searchConfig =
     screen_name: username,
     count: count
@@ -137,3 +137,6 @@ module.exports = (robot) ->
 
   robot.respond /show (.*) new tweets about (.*)/i, (msg) ->
     doSearch(msg)
+
+  robot.respond /show (.*) new tweets by (.*)/i, (msg) ->
+    doUser(msg)
