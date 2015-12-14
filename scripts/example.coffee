@@ -169,7 +169,7 @@ module.exports = (robot) ->
   # robot.respond /tweet\s*(.+)?/i, (msg) ->
   #   doTweet(msg, msg.match[1])
   robot.respond /show help/i, (msg) ->
-    doSearch(msg)
+    doHelp(msg)
 
   robot.respond /show (.*) new tweets about (.*)/i, (msg) ->
     doSearch(msg)
