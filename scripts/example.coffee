@@ -142,7 +142,7 @@ doUserRandom = (msg) ->
 
 doLocation = (msg, location) ->
   msg.send 'getting here'
-  msg.send 'location'
+  msg.send location
   msg.send msg.match[1]
   searchConfig =
     q: 'tar heels'
