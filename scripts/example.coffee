@@ -150,7 +150,6 @@ doLocation = (msg, location) ->
     geocode: location
     count: count
     result_type: recent
-    lang: en
 
   twit.get 'search/tweets', searchConfig, (err, reply) ->
     return msg.send "Error retrieving tweets!" if err
@@ -172,7 +171,6 @@ doMostPopular = (msg) ->
     q: query
     count: count
     result_type: popular
-    lang: en
 
   twit.get 'search/tweets', searchConfig, (err, reply) ->
     return msg.send "Error retrieving tweets!" if err
