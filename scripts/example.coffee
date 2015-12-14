@@ -142,14 +142,16 @@ doUserRandom = (msg) ->
 
 doLocation = (msg) ->
   searchString = msg.match[2]
-
-  msg.send searchString
+  latitude = ''
+  longitude = ''
 
   geocoder.geocode searchString, (err, data) ->
-    console.log(data)
-    console.log(err)
-    msg.send err
-    return msg.send data
+    msg.send err.text if err?
+    location = data.results[0].geometry.location
+    latitude = location.lat
+    longitude = location.lng
+
+    return msg.send latitude
 
 # doTweet = (msg, tweet) ->
 #   return if !tweet
