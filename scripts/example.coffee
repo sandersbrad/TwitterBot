@@ -140,32 +140,19 @@ doUserRandom = (msg) ->
 
     return msg.send response
 
-doLocation = (msg) ->
-  searchString = msg.match[2]
-  count = msg.match[1]
-  searchConfig = {}
-  latitude = ''
-  longitude = ''
-  response = ''
-  geocoder.geocode searchString, (err, data) ->
-    msg.send 'geocoder called'
-    location = data.results[0].geometry.location
-    latitude += location.lat
-    longitude += location.lng
-    searchConfig =
-      query: 'tar heels'
-      geocode: "#{latitude},#{longitude},10mi",
-      count: count
+doLocation = (msg, searchConfig) ->
 
   twit.get 'search/tweets', searchConfig, (err, reply) ->
     return msg.send "Error retrieving tweets!" if err
     return msg.send "No results returned!" unless reply?.statuses?.length
-    msg.seng 'getting here'
+    msg.send 'getting here'
     statuses = reply.statuses
+    response = ''
     i = 0
     for status, i in statuses
       response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
       response += "\n" if i != count-1
+
     return msg.send response
 
 # doTweet = (msg, tweet) ->
@@ -214,4 +201,13 @@ module.exports = (robot) ->
     doUserRetweets(msg)
 
   robot.respond /show (.*) tweets in (.*)/i, (msg) ->
-    doLocation(msg)
+    geocoder.geocode msg.match[2], (err, data) ->
+      msg.send 'geocoder called'
+      location = data.results[0].geometry.location
+      latitude = '' + location.lat
+      longitude = '' + location.lng
+      searchConfig =
+        query: 'tar heels'
+        geocode: "#{latitude},#{longitude},10mi",
+        count: msg.match[1]
+        doLocation(msg, searchConfig)
