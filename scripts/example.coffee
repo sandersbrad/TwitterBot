@@ -19,7 +19,7 @@
 
 Twit = require "twit"
 
-# geocoder = require 'geocoder'
+geocoder = require 'geocoder'
 
 config =
   consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
@@ -140,11 +140,11 @@ doUserRandom = (msg) ->
 
     return msg.send response
 
-doLocation(msg) = msg ->
-  searchString = msg[2]
-
-  geocoder.geocode searchString, (err, data) ->
-    return msg.send data
+# doLocation(msg) = msg ->
+#   searchString = msg[2]
+#
+#   geocoder.geocode searchString, (err, data) ->
+#     return msg.send data
 
 # doTweet = (msg, tweet) ->
 #   return if !tweet
