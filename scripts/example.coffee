@@ -34,11 +34,11 @@ getTwit = ->
 
 doHelp = (msg) ->
   commands = [
-    "hubot twitter help\t\t\tShow this help menu",
-    "hubot twitter search <query>\t\tSearch all public tweets",
-    "hubot twitter user <query>\t\tGet a user's recent tweets",
-    "hubot [twitter] tweet <query>\t\tPost a tweet",
-    "hubot twitter new tweets about <query>"
+    "twitterbot show help\t\t\tShow this help menu",
+    "twitterbot show <num> new tweets about <query>\t\tSearch all public tweets",
+    "twitterbot show <num> new tweets by <user>\t\tGet a user's recent tweets",
+    "twitterbot show <num> random tweets by <user>\t\tPost a tweet",
+    "twitterbot show <num> retweets by <user>"
   ]
   msg.send commands.join('\n')
 
@@ -138,24 +138,21 @@ doUserRandom = (msg) ->
 
     return msg.send response
 
-doTweet = (msg, tweet) ->
-  return if !tweet
-  tweetObj = status: tweet
-  twit = getTwit()
-  twit.post 'statuses/update', tweetObj, (err, reply) ->
-    if err
-      msg.send "Error sending tweet!"
-    else
-      username = reply?.user?.screen_name
-      id = reply.id_str
-      if (username && id)
-        msg.send "https://www.twitter.com/#{username}/status/#{id}"
-
-_randomNum: (max,min=0) ->
-  return Math.floor(Math.random() * (max - min) + min)
+# doTweet = (msg, tweet) ->
+#   return if !tweet
+#   tweetObj = status: tweet
+#   twit = getTwit()
+#   twit.post 'statuses/update', tweetObj, (err, reply) ->
+#     if err
+#       msg.send "Error sending tweet!"
+#     else
+#       username = reply?.user?.screen_name
+#       id = reply.id_str
+#       if (username && id)
+#         msg.send "https://www.twitter.com/#{username}/status/#{id}"
 
 module.exports = (robot) ->
-  robot.respond /twitter (\S+)\s*(.+)?/i, (msg) ->
+  robot.respond /show (\S+)\s*(.+)?/i, (msg) ->
     unless config.consumer_key
       msg.send "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
       return
@@ -169,22 +166,8 @@ module.exports = (robot) ->
       msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN_SECRET environment variable."
       return
 
-    command = msg.match[1]
-
-    if (command == 'help')
-      doHelp(msg)
-
-    else if (command == 'new')
-      doSearch(msg)
-
-    else if (command == 'tweet')
-      doTweet(msg, msg.match[2])
-
-    else if (command == 'user')
-      doUser(msg, msg.match[2])
-
-  robot.respond /tweet\s*(.+)?/i, (msg) ->
-    doTweet(msg, msg.match[1])
+  # robot.respond /tweet\s*(.+)?/i, (msg) ->
+  #   doTweet(msg, msg.match[1])
 
   robot.respond /show (.*) new tweets about (.*)/i, (msg) ->
     doSearch(msg)
@@ -195,5 +178,5 @@ module.exports = (robot) ->
   robot.respond /show (.*) random tweets by (.*)/i, (msg) ->
     doUserRandom(msg)
 
-  robot.respond /show (.*) retweets tweets by (.*)/i, (msg) ->
+  robot.respond /show (.*) retweets by (.*)/i, (msg) ->
     doUserRetweets(msg)
