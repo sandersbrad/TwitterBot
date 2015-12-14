@@ -23,7 +23,7 @@ geoConfig =
   apiKey: process.env.GOOGLE_GEOCODER_API_KEY
 
 
-geocoder = require "node-geocoder"('google', 'http', geoConfig)
+geocoder = require("node-geocoder")('google', 'http', geoConfig)
 
 config =
   consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
@@ -148,14 +148,12 @@ doLocation(msg) = msg ->
   city = msg[2]
   state = msg[3]
 
-  geocoder.geocode({
-    city: city,
-    state: state,
-    countryCode: 'us'
-    },
-    function (err, res) {
-      return msg.send "#{res.latitude}"
-    })
+  geocoder.geocode {
+  city: city
+  state: state
+  countryCode: 'us'
+  }, (err, res) ->
+    return msg.send "#{res.latitude}"
 
 # doTweet = (msg, tweet) ->
 #   return if !tweet
