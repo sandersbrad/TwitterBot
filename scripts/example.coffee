@@ -112,7 +112,7 @@ doUserRetweets = (msg) ->
     i = 0
     msg.send "Retweets from @#{statuses[0].user.screen_name}"
     for status, i in statuses
-      response.push "#{i + 1}. #{status.text}" if status.retweeted?
+      response.push "#{i + 1}. #{status.text}" if status.text[0..1] == "RT"
       break if (response.length == count)
 
     return msg.send response.join('\n')
