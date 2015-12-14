@@ -152,9 +152,9 @@ doLocation = (msg) ->
     latitude += location.lat
     longitude += location.lng
     searchConfig =
-      query = 'tar heels'
-      geo = "#{latitude},#{longitude},10mi",
-      count = count
+      query: 'tar heels'
+      geo: "#{latitude},#{longitude},10mi",
+      count: count
 
     twit.get 'search/tweets', searchConfig, (err, reply) ->
       return msg.send "Error retrieving tweets!" if err
