@@ -151,7 +151,7 @@ doLocation = (msg) ->
     latitude = "#{location.lat}"
     longitude = "#{location.lng}"
 
-  msg.send 'function called'
+  msg.send "#{longitude}"
   return msg.send latitude
 
 # doTweet = (msg, tweet) ->
