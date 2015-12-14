@@ -146,7 +146,7 @@ doLocation = (msg) ->
   longitude = ''
 
   geocoder.geocode searchString, (err, data) ->
-    msg.send err.text if err?
+    msg.send 'geocoder called'
     location = data.results[0].geometry.location
     latitude = "#{location.lat}"
     longitude = "#{location.lng}"
