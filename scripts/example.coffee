@@ -98,6 +98,7 @@ doUserRetweets = (msg) ->
   count = parseInt(msg.match[1])
   searchConfig =
     screen_name: username,
+    count: 1000
 
   twit.get 'statuses/user_timeline', searchConfig, (err, statuses) ->
     return msg.send "Error retrieving retweets!" if err
@@ -107,8 +108,8 @@ doUserRetweets = (msg) ->
     i = 0
     msg.send "Retweets from #{statuses[0].user.screen_name}"
     for status, i in statuses
-      response += "#{status.text}" if status[retweeted]
-      break if response.length == count
+      response.push "#{status.text}" if status[retweeted]
+      break if (response.length == count - 1)
 
     return msg.send response.join('\n')
 
