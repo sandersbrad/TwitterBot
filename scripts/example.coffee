@@ -153,7 +153,7 @@ doLocation = (msg) ->
     longitude += location.lng
     searchConfig =
       query: 'tar heels'
-      geo: "#{latitude},#{longitude},10mi",
+      geocode: "#{latitude},#{longitude},10mi",
       count: count
 
     twit.get 'search/tweets', searchConfig, (err, reply) ->
