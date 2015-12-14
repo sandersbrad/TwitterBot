@@ -161,13 +161,12 @@ doLocation = (msg) ->
       return msg.send "No results returned!" unless reply?.statuses?.length
 
       statuses = reply.statuses
-      response = ''
       i = 0
       for status, i in statuses
         response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
         response += "\n" if i != count-1
 
-      return msg.send response
+    return msg.send response
 
 # doTweet = (msg, tweet) ->
 #   return if !tweet
