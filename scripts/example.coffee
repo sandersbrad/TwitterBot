@@ -146,7 +146,9 @@ doLocation = (msg) ->
   msg.send searchString
 
   geocoder.geocode searchString, (err, data) ->
-    msg.send err if err?
+    console.log(data)
+    console.log(err)
+    msg.send err
     return msg.send data
 
 # doTweet = (msg, tweet) ->
