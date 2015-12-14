@@ -142,11 +142,11 @@ doUserRandom = (msg) ->
 
     return msg.send response
 
-doLocation = (msg, location) ->
+doLocation = (msg, location, city) ->
   twit = getTwit()
   count = msg.match[1]
   query = msg.match[2]
-  # city = msg.match[3]
+  city = city
   searchConfig =
     q: query
     geocode: location
@@ -161,7 +161,7 @@ doLocation = (msg, location) ->
     response = ''
     i = 0
 
-    # msg.send "Recent tweets about #{query} in #{city}"
+    msg.send "Recent tweets about #{query} in #{city}"
     for status, i in statuses
       response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
       response += "\n" if i != count-1
@@ -215,7 +215,7 @@ module.exports = (robot) ->
       latitude = '' + loc.lat
       longitude = '' + loc.lng
       location = "#{latitude},#{longitude},10mi"
-      doLocation(msg, location)
+      doLocation(msg, location, msg.match[3])
 
   robot.respond /show (.*) most popular tweets about (.*)/i, (msg) ->
     doMostPopular(msg)
