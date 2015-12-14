@@ -142,15 +142,32 @@ doUserRandom = (msg) ->
 
 doLocation = (msg) ->
   searchString = msg.match[2]
+  count = msg.match[1]
   latitude = ''
   longitude = ''
-
+  response = ''
   geocoder.geocode searchString, (err, data) ->
     msg.send 'geocoder called'
     location = data.results[0].geometry.location
-    msg.send "#{location.lat}, #{location.lng}"
+    latitude += location.lat
+    longitude += location.lng
+    searchConfig =
+      query = 'tar heels'
+      geo = "#{latitude},#{longitude},10mi",
+      count = count
 
-  return msg.send latitude
+    twit.get 'search/tweets', searchConfig, (err, reply) ->
+      return msg.send "Error retrieving tweets!" if err
+      return msg.send "No results returned!" unless reply?.statuses?.length
+
+      statuses = reply.statuses
+      response = ''
+      i = 0
+      for status, i in statuses
+        response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
+        response += "\n" if i != count-1
+
+      return msg.send response
 
 # doTweet = (msg, tweet) ->
 #   return if !tweet
