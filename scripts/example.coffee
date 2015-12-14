@@ -19,7 +19,7 @@
 
 Twit = require "twit"
 
-# geoConfig = apiKey: process.env.GOOGLE_GEOCODER_API_KEY
+geoConfig = apiKey: process.env.GOOGLE_GEOCODER_API_KEY
 
 
 geocoder = require("node-geocoder")('google', 'http', geoConfig)
