@@ -127,7 +127,6 @@ doUserRandom = (msg) ->
 
   twit = getTwit()
   num_tweets = parseInt(msg.match[1])
-  count = 100
   searchConfig =
     screen_name: username,
     count: count
@@ -138,6 +137,7 @@ doUserRandom = (msg) ->
 
     response = ''
     i = 0
+    count = statuses.length
     msg.send "Random tweets from @#{statuses[0].user.screen_name}"
     for i in [0..num_tweets]
       randomNum = Math.floor(Math.random() * count)
