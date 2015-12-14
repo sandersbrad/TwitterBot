@@ -22,7 +22,7 @@ Twit = require "twit"
 geoConfig = apiKey: process.env.GOOGLE_GEOCODER_API_KEY
 
 
-# geocoder = require("node-geocoder")('google', 'http', geoConfig)
+geocoder = require("node-geocoder")('google', 'http', geoConfig)
 
 config =
   consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
