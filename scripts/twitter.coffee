@@ -143,7 +143,7 @@ doUserRandom = (msg) ->
     count = statuses.length
     msg.send "Random tweets from @#{statuses[0].user.screen_name}"
 
-    for i in [1..num_tweets]
+    for i in [0...num_tweets]
       loop
         randomNum = Math.floor(Math.random() * count)
         break unless randomNums[randomNum]
