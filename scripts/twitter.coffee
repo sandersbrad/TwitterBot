@@ -105,8 +105,7 @@ doUserRetweets = (msg) ->
   twit = getTwit()
   count = parseInt(msg.match[1])
   searchConfig =
-    screen_name: username,
-    count: 1000
+    screen_name: username
 
   twit.get 'statuses/user_timeline', searchConfig, (err, statuses) ->
     return msg.send "Error retrieving retweets!" if err
@@ -114,9 +113,12 @@ doUserRetweets = (msg) ->
 
     response = []
     i = 0
+    j = 1
     msg.send "Retweets from @#{statuses[0].user.screen_name}"
     for status, i in statuses
-      response.push "#{i + 1}. #{status.text}" if status.text[0..1] == "RT"
+      if status.text[0..1] == "RT"
+        response.push "#{j}. #{status.text}"
+        j += 1
       break if (response.length == count)
 
     return msg.send response.join('\n')
@@ -135,11 +137,16 @@ doUserRandom = (msg) ->
     return msg.send "No results returned!" unless statuses?.length
 
     response = ''
+    randomNums = {}
     i = 0
     count = statuses.length
     msg.send "Random tweets from @#{statuses[0].user.screen_name}"
     for i in [0..num_tweets]
-      randomNum = Math.floor(Math.random() * count)
+      loop do
+        randomNum = Math.floor(Math.random() * count)
+        break unless randomNums[randomNum]
+
+      randomNums[randomNum] = true
       response += "#{i + 1}. #{statuses[randomNum].text}"
       response += "\n" if i != num_tweets-1
 
