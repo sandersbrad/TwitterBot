@@ -90,6 +90,30 @@ doUser = (msg) ->
 
     return msg.send response
 
+doUserRetweets = (msg) ->
+  username = msg.match[2]
+  return if !username
+
+  twit = getTwit()
+  count = parseInt(msg.match[1])
+  searchConfig =
+    screen_name: username,
+    count: count,
+    retweeted: true
+
+  twit.get 'statuses/user_timeline', searchConfig, (err, statuses) ->
+    return msg.send "Error retrieving tweets!" if err
+    return msg.send "No results returned!" unless statuses?.length
+
+    response = ''
+    i = 0
+    msg.send "Retweets from #{statuses[0].user.screen_name}"
+    for status, i in statuses
+      response += "#{status.text}"
+      response += "\n" if i != count-1
+
+    return msg.send response
+
 doUserRandom = (msg) ->
   username = msg.match[2]
   return if !username
@@ -170,4 +194,7 @@ module.exports = (robot) ->
     doUser(msg)
 
   robot.respond /show (.*) random tweets by (.*)/i, (msg) ->
+    doUserRandom(msg)
+
+  robot.respond /show (.*) retweets tweets by (.*)/i, (msg) ->
     doUserRandom(msg)
