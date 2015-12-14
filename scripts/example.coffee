@@ -1,8 +1,9 @@
 # Description:
-#   Create and search for tweets on Twitter.
+#   Search for tweets on Twitter.
 #
 # Dependencies:
 #   "twit": "1.1.x"
+#   "geocoder": "0.2.2"
 #
 # Configuration:
 #   HUBOT_TWITTER_CONSUMER_KEY
@@ -11,10 +12,13 @@
 #   HUBOT_TWITTER_ACCESS_TOKEN_SECRET
 #
 # Commands:
-#   hubot twitter <command> <query> - Search Twitter for a query
-#
-# Author:
-#   gkoo
+#   twitterbot show help                                    Show help menu
+#   twitterbot show <num> new tweets about <query>          Search all public tweets
+#   twitterbot show <num> new tweets by <user>              Get a user's recent tweets
+#   twitterbot show <num> random tweets by <user>           Get random tweets by user
+#   twitterbot show <num> retweets by <user>                Get retweets by a user
+#   twitterbot show <num> tweets about <query> in <location (city, state)>        Get tweets by location
+#   twitterbot show <num> most popular tweets about <query> Get most popular tweets
 #
 
 Twit = require "twit"
