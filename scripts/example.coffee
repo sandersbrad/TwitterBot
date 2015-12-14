@@ -19,10 +19,7 @@
 
 Twit = require "twit"
 
-geoConfig = apiKey: process.env.GOOGLE_GEOCODER_API_KEY
-
-
-geocoder = require("node-geocoder")('google', 'http', geoConfig)
+geocoder = require('geocoder')
 
 config =
   consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
@@ -143,16 +140,11 @@ doUserRandom = (msg) ->
 
     return msg.send response
 
-# doLocation(msg) = msg ->
-#   city = msg[2]
-#   state = msg[3]
-#
-#   geocoder.geocode {
-#   city: city
-#   state: state
-#   countryCode: 'us'
-#   }, (err, res) ->
-#     return msg.send "#{res.latitude}"
+doLocation(msg) = msg ->
+  searchString = msg[2]
+
+  geocoder.geocode searchString, (err, data) ->
+    return msg.send data
 
 # doTweet = (msg, tweet) ->
 #   return if !tweet
