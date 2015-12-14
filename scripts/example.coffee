@@ -40,7 +40,8 @@ doHelp = (msg) ->
     "twitterbot show <num> new tweets about <query>\t\tSearch all public tweets",
     "twitterbot show <num> new tweets by <user>\t\tGet a user's recent tweets",
     "twitterbot show <num> random tweets by <user>\t\tGet random tweets by user",
-    "twitterbot show <num> retweets by <user>\t\tGet retweets by a user"
+    "twitterbot show <num> retweets by <user>\t\tGet retweets by a user",
+    "twitterbot show <num> tweets about <query> in <location (city, state)>"
   ]
   msg.send commands.join('\n')
 
@@ -143,8 +144,9 @@ doUserRandom = (msg) ->
 doLocation = (msg, location) ->
   twit = getTwit()
   count = msg.match[1]
+  query = msg.match[2]
   searchConfig =
-    q: ''
+    q: query
     geocode: location
     count: count
 
@@ -206,8 +208,8 @@ module.exports = (robot) ->
   robot.respond /show (.*) retweets by (.*)/i, (msg) ->
     doUserRetweets(msg)
 
-  robot.respond /show (.*) tweets in (.*)/i, (msg) ->
-    geocoder.geocode msg.match[2], (err, data) ->
+  robot.respond /show (.*) tweets about (.*) in (.*)/i, (msg) ->
+    geocoder.geocode msg.match[3], (err, data) ->
       return msg.send "Location error" if err
       loc = data.results[0].geometry.location
       latitude = '' + loc.lat
