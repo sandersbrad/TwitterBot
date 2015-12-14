@@ -143,6 +143,7 @@ doUserRandom = (msg) ->
 doLocation = (msg) ->
   searchString = msg.match[2]
   count = msg.match[1]
+  searchConfig = {}
   latitude = ''
   longitude = ''
   response = ''
@@ -156,15 +157,15 @@ doLocation = (msg) ->
       geocode: "#{latitude},#{longitude},10mi",
       count: count
 
-    twit.get 'search/tweets', searchConfig, (err, reply) ->
-      return msg.send "Error retrieving tweets!" if err
-      return msg.send "No results returned!" unless reply?.statuses?.length
+  twit.get 'search/tweets', searchConfig, (err, reply) ->
+    return msg.send "Error retrieving tweets!" if err
+    return msg.send "No results returned!" unless reply?.statuses?.length
 
-      statuses = reply.statuses
-      i = 0
-      for status, i in statuses
-        response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
-        response += "\n" if i != count-1
+    statuses = reply.statuses
+    i = 0
+    for status, i in statuses
+      response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
+      response += "\n" if i != count-1
 
     msg.send 'getting here'
     msg.send response
