@@ -146,7 +146,7 @@ doLocation = (msg, location) ->
   twit = getTwit()
   count = msg.match[1]
   query = msg.match[2]
-  city = msg.match[3]
+  # city = msg.match[3]
   searchConfig =
     q: query
     geocode: location
@@ -161,7 +161,7 @@ doLocation = (msg, location) ->
     response = ''
     i = 0
 
-    msg.send "Recent tweets about #{query} in #{city}"
+    # msg.send "Recent tweets about #{query} in #{city}"
     for status, i in statuses
       response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
       response += "\n" if i != count-1
