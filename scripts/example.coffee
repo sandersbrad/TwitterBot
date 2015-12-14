@@ -19,6 +19,12 @@
 
 Twit = require "twit"
 
+geoConfig = {
+  apiKey: process.env.GOOGLE_GEOCODER_API_KEY
+}
+
+geocoder = require "node-geocoder"('google', 'http', geoConfig)
+
 config =
   consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
   consumer_secret: process.env.HUBOT_TWITTER_CONSUMER_SECRET
@@ -37,8 +43,8 @@ doHelp = (msg) ->
     "twitterbot show help\t\t\tShow this help menu",
     "twitterbot show <num> new tweets about <query>\t\tSearch all public tweets",
     "twitterbot show <num> new tweets by <user>\t\tGet a user's recent tweets",
-    "twitterbot show <num> random tweets by <user>\t\tPost a tweet",
-    "twitterbot show <num> retweets by <user>"
+    "twitterbot show <num> random tweets by <user>\t\tGet random tweets by user",
+    "twitterbot show <num> retweets by <user>\t\tGet retweets by a user"
   ]
   msg.send commands.join('\n')
 
@@ -138,6 +144,19 @@ doUserRandom = (msg) ->
 
     return msg.send response
 
+doLocation(msg) = msg ->
+  city = msg[2]
+  state = msg[3]
+
+  geocoder.geocode({
+    city: city,
+    state: state,
+    countryCode: 'us'
+    },
+    function (err, res) {
+      return msg.send "#{res.latitude}"
+    })
+
 # doTweet = (msg, tweet) ->
 #   return if !tweet
 #   tweetObj = status: tweet
@@ -182,3 +201,6 @@ module.exports = (robot) ->
 
   robot.respond /show (.*) retweets by (.*)/i, (msg) ->
     doUserRetweets(msg)
+
+  robot.respond /show (.*) tweets in (.*), (.*)/i, (msg) ->
+    doLocation(msg)
