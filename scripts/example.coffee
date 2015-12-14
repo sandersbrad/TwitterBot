@@ -147,15 +147,15 @@ doLocation = (msg, location) ->
 
   twit = getTwit()
   searchConfig =
-    q: ''
+    q: 'Raleigh'
     geocode: location
     count: msg.match[1]
 
   twit.get 'search/tweets', searchConfig, (err, reply) ->
     return msg.send "Error retrieving tweets!" if err
     return msg.send "No results returned!" unless reply?.statuses?.length
-    msg.send 'getting here'
     statuses = reply.statuses
+    msg.send statuses.toString()
     response = ''
     i = 0
     for status, i in statuses
