@@ -207,11 +207,10 @@ module.exports = (robot) ->
     doUserRetweets(msg)
 
   robot.respond /show (.*) tweets in (.*)/i, (msg) ->
-    that = this
-    geocoder.geocode msg.match[2], (err, data) ->
+    geocoder.geocode msg.match[2], ((err, data) ->
       msg.send 'geocoder called'
       loc = data.results[0].geometry.location
       latitude = '' + loc.lat
       longitude = '' + loc.lng
       location = "#{latitude},#{longitude},10mi"
-      return that.doLocation(msg, location)
+      this.doLocation(msg, location)).bind(this)
