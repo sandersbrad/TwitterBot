@@ -142,7 +142,7 @@ doUserRandom = (msg) ->
 
 doLocation = (msg, location) ->
   msg.send 'getting here'
-  
+
   searchConfig =
     q: 'tar heels'
     geocode: location
@@ -214,5 +214,4 @@ module.exports = (robot) ->
       latitude = '' + location.lat
       longitude = '' + location.lng
       location = "#{latitude},#{longitude},10mi"
-
-    doLocation(msg, location)
+      doLocation(msg, location)
