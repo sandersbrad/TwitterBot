@@ -213,5 +213,4 @@ module.exports = (robot) ->
       latitude = '' + loc.lat
       longitude = '' + loc.lng
       location = "#{latitude},#{longitude},10mi"
-      msg.send location
-      that.doLocation(msg, location)
+      msg.send that.toString()
