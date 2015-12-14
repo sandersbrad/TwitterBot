@@ -135,12 +135,14 @@ doUserRandom = (msg) ->
   twit.get 'statuses/user_timeline', searchConfig, (err, statuses) ->
     return msg.send "Error retrieving tweets!" if err
     return msg.send "No results returned!" unless statuses?.length
+    return msg.send "Not enough tweets" if statuses.length < num_tweets
 
     response = ''
     randomNums = {}
     i = 0
     count = statuses.length
     msg.send "Random tweets from @#{statuses[0].user.screen_name}"
+
     for i in [0..num_tweets]
       loop
         randomNum = Math.floor(Math.random() * count)
