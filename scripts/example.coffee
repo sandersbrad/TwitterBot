@@ -62,7 +62,7 @@ doSearch = (msg) ->
     response = ''
     i = 0
     for status, i in statuses
-      response += "**@#{status.user.screen_name}**: #{status.text}"
+      response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
       response += "\n" if i != count-1
 
     return msg.send response
@@ -83,9 +83,9 @@ doUser = (msg) ->
 
     response = ''
     i = 0
-    msg.send "Recent tweets from #{statuses[0].user.screen_name}"
+    msg.send "Recent tweets from @#{statuses[0].user.screen_name}"
     for status, i in statuses
-      response += "#{status.text}"
+      response += "#{i + 1}. #{status.text}"
       response += "\n" if i != count-1
 
     return msg.send response
@@ -106,10 +106,10 @@ doUserRetweets = (msg) ->
 
     response = []
     i = 0
-    msg.send "Retweets from #{statuses[0].user.screen_name}"
+    msg.send "Retweets from @#{statuses[0].user.screen_name}"
     for status, i in statuses
-      response.push "#{status.text}" if status.retweeted?
-      break if (response.length == count - 1)
+      response.push "#{i + 1}. #{status.text}" if status.retweeted?
+      break if (response.length == count)
 
     return msg.send response.join('\n')
 
@@ -130,10 +130,10 @@ doUserRandom = (msg) ->
 
     response = ''
     i = 0
-    msg.send "Random tweets from #{statuses[0].user.screen_name}"
+    msg.send "Random tweets from @#{statuses[0].user.screen_name}"
     for i in [0..num_tweets]
       randomNum = Math.floor(Math.random() * count)
-      response += "#{statuses[randomNum].text}"
+      response += "#{i + 1}. #{statuses[randomNum].text}"
       response += "\n" if i != num_tweets-1
 
     return msg.send response
