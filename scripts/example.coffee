@@ -18,7 +18,6 @@
 #
 
 Twit = require "twit"
-
 geocoder = require 'geocoder'
 
 config =
@@ -41,7 +40,8 @@ doHelp = (msg) ->
     "twitterbot show <num> new tweets by <user>\t\tGet a user's recent tweets",
     "twitterbot show <num> random tweets by <user>\t\tGet random tweets by user",
     "twitterbot show <num> retweets by <user>\t\tGet retweets by a user",
-    "twitterbot show <num> tweets about <query> in <location (city, state)>"
+    "twitterbot show <num> tweets about <query> in <location (city, state)>\t\tGet tweets by location",
+    "twitterbot show <num> most popular tweets about <query>\t\tGet most popular tweets"
   ]
   msg.send commands.join('\n')
 
@@ -64,6 +64,7 @@ doSearch = (msg) ->
     statuses = reply.statuses
     response = ''
     i = 0
+    msg.send "Recent tweets about #{query}"
     for status, i in statuses
       response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
       response += "\n" if i != count-1
@@ -145,6 +146,7 @@ doLocation = (msg, location) ->
   twit = getTwit()
   count = msg.match[1]
   query = msg.match[2]
+  city = msg.match[3]
   searchConfig =
     q: query
     geocode: location
@@ -158,6 +160,8 @@ doLocation = (msg, location) ->
 
     response = ''
     i = 0
+
+    msg.send "Recent tweets about #{query} in #{city}"
     for status, i in statuses
       response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
       response += "\n" if i != count-1
@@ -180,42 +184,15 @@ doMostPopular = (msg) ->
 
     response = ''
     i = 0
+    msg.send "Most popular tweets about #{query}"
     for status, i in statuses
       response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
       response += "\n" if i != count-1
 
     return msg.send response
 
-# doTweet = (msg, tweet) ->
-#   return if !tweet
-#   tweetObj = status: tweet
-#   twit = getTwit()
-#   twit.post 'statuses/update', tweetObj, (err, reply) ->
-#     if err
-#       msg.send "Error sending tweet!"
-#     else
-#       username = reply?.user?.screen_name
-#       id = reply.id_str
-#       if (username && id)
-#         msg.send "https://www.twitter.com/#{username}/status/#{id}"
-
 module.exports = (robot) ->
-  robot.respond /show (\S+)\s*(.+)?/i, (msg) ->
-    unless config.consumer_key
-      msg.send "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
-      return
-    unless config.consumer_secret
-      msg.send "Please set the HUBOT_TWITTER_CONSUMER_SECRET environment variable."
-      return
-    unless config.access_token
-      msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN environment variable."
-      return
-    unless config.access_token_secret
-      msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN_SECRET environment variable."
-      return
 
-  # robot.respond /tweet\s*(.+)?/i, (msg) ->
-  #   doTweet(msg, msg.match[1])
   robot.respond /show help/i, (msg) ->
     doHelp(msg)
 
