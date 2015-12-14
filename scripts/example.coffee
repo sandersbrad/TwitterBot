@@ -147,7 +147,7 @@ doLocation = (msg, location) ->
 
   twit = getTwit()
   searchConfig =
-    q: 'tar heels'
+    q: ''
     geocode: location
     count: msg.match[1]
 
