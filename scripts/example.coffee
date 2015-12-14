@@ -148,9 +148,10 @@ doLocation = (msg) ->
   geocoder.geocode searchString, (err, data) ->
     msg.send err.text if err?
     location = data.results[0].geometry.location
-    latitude = location.lat
-    longitude = location.lng
+    latitude = "#{location.lat}"
+    longitude = "#{location.lng}"
 
+  msg.send 'function called'
   return msg.send latitude
 
 # doTweet = (msg, tweet) ->
