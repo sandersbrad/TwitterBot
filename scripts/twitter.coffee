@@ -144,7 +144,7 @@ doUserRandom = (msg) ->
     for i in [0..num_tweets]
       loop
         randomNum = Math.floor(Math.random() * count)
-        break unless randomNums[randomNum] == true
+        break unless randomNums[randomNum]
 
       randomNums[randomNum] = true
       response += "#{i + 1}. #{statuses[randomNum].text}"
