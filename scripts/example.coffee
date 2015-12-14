@@ -143,7 +143,10 @@ doUserRandom = (msg) ->
 doLocation = (msg) ->
   searchString = msg[2]
 
+  msg.send 'function called'
+
   geocoder.geocode searchString, (err, data) ->
+    msg.send err if err?
     return msg.send data
 
 # doTweet = (msg, tweet) ->
@@ -191,5 +194,5 @@ module.exports = (robot) ->
   robot.respond /show (.*) retweets by (.*)/i, (msg) ->
     doUserRetweets(msg)
 
-  robot.respond /show (.*) tweets in (.*), (.*)/i, (msg) ->
+  robot.respond /show (.*) tweets in (.*)/i, (msg) ->
     doLocation(msg)
