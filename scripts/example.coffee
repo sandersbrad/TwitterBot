@@ -19,7 +19,7 @@
 
 Twit = require "twit"
 
-geocoder = require('geocoder')
+# geocoder = require 'geocoder'
 
 config =
   consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
