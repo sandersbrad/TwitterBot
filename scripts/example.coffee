@@ -18,7 +18,6 @@
 #
 
 Twit = require "twit"
-that = this
 
 geocoder = require 'geocoder'
 
@@ -207,8 +206,8 @@ module.exports = (robot) ->
   robot.respond /show (.*) retweets by (.*)/i, (msg) ->
     doUserRetweets(msg)
 
+  that = this
   robot.respond /show (.*) tweets in (.*)/i, (msg) ->
-
     geocoder.geocode msg.match[2], (err, data) ->
       loc = data.results[0].geometry.location
       latitude = '' + loc.lat
