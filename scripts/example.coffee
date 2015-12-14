@@ -166,7 +166,8 @@ doLocation = (msg) ->
         response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
         response += "\n" if i != count-1
 
-    return msg.send response
+    msg.send 'getting here'
+    msg.send response
 
 # doTweet = (msg, tweet) ->
 #   return if !tweet
