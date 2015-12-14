@@ -123,34 +123,34 @@ doUserRetweets = (msg) ->
 
     return msg.send response.join('\n')
 
-doUserRandom = (msg) ->
-  username = msg.match[2]
-  return if !username
-
-  twit = getTwit()
-  num_tweets = parseInt(msg.match[1])
-  searchConfig =
-    screen_name: username
-
-  twit.get 'statuses/user_timeline', searchConfig, (err, statuses) ->
-    return msg.send "Error retrieving tweets!" if err
-    return msg.send "No results returned!" unless statuses?.length
-
-    response = ''
-    randomNums = {}
-    i = 0
-    count = statuses.length
-    msg.send "Random tweets from @#{statuses[0].user.screen_name}"
-    for i in [0..num_tweets]
-      loop
-        randomNum = Math.floor(Math.random() * count)
-        break unless randomNums[randomNum]
-
-      randomNums[randomNum] = true
-      response += "#{i + 1}. #{statuses[randomNum].text}"
-      response += "\n" if i != num_tweets-1
-
-    return msg.send response
+# doUserRandom = (msg) ->
+#   username = msg.match[2]
+#   return if !username
+#
+#   twit = getTwit()
+#   num_tweets = parseInt(msg.match[1])
+#   searchConfig =
+#     screen_name: username
+#
+#   twit.get 'statuses/user_timeline', searchConfig, (err, statuses) ->
+#     return msg.send "Error retrieving tweets!" if err
+#     return msg.send "No results returned!" unless statuses?.length
+#
+#     response = ''
+#     randomNums = {}
+#     i = 0
+#     count = statuses.length
+#     msg.send "Random tweets from @#{statuses[0].user.screen_name}"
+#     for i in [0..num_tweets]
+#       loop
+#         randomNum = Math.floor(Math.random() * count)
+#         break unless randomNums[randomNum]
+#
+#       randomNums[randomNum] = true
+#       response += "#{i + 1}. #{statuses[randomNum].text}"
+#       response += "\n" if i != num_tweets-1
+#
+#     return msg.send response
 
 doLocation = (msg, location, city) ->
   twit = getTwit()
