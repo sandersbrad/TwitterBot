@@ -140,11 +140,11 @@ doUserRandom = (msg) ->
 
     return msg.send response
 
-# doLocation(msg) = msg ->
-#   searchString = msg[2]
-#
-#   geocoder.geocode searchString, (err, data) ->
-#     return msg.send data
+doLocation = (msg) ->
+  searchString = msg[2]
+
+  geocoder.geocode searchString, (err, data) ->
+    return msg.send data
 
 # doTweet = (msg, tweet) ->
 #   return if !tweet
