@@ -149,7 +149,7 @@ doUserRandom = (msg) ->
         break unless randomNums[randomNum]
 
       randomNums[randomNum] = true
-      response += "#{i}. #{statuses[randomNum].text}"
+      response += "#{i + 1}. #{statuses[randomNum].text}"
       response += "\n" if i != num_tweets-1
 
     return msg.send response
