@@ -151,7 +151,7 @@ doLocation = (msg) ->
     latitude = location.lat
     longitude = location.lng
 
-    return msg.send latitude
+  return msg.send latitude
 
 # doTweet = (msg, tweet) ->
 #   return if !tweet
