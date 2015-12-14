@@ -140,7 +140,13 @@ doUserRandom = (msg) ->
 
     return msg.send response
 
-doLocation = (msg, searchConfig) ->
+doLocation = (msg, location) ->
+  msg.send 'getting here'
+  
+  searchConfig =
+    q: 'tar heels'
+    geocode: location
+    count: msg.match[1]
 
   twit.get 'search/tweets', searchConfig, (err, reply) ->
     return msg.send "Error retrieving tweets!" if err
@@ -201,13 +207,12 @@ module.exports = (robot) ->
     doUserRetweets(msg)
 
   robot.respond /show (.*) tweets in (.*)/i, (msg) ->
+    location = ''
     geocoder.geocode msg.match[2], (err, data) ->
       msg.send 'geocoder called'
-      location = data.results[0].geometry.location
+      loc = data.results[0].geometry.location
       latitude = '' + location.lat
       longitude = '' + location.lng
-      searchConfig =
-        q: 'tar heels'
-        geocode: "#{latitude},#{longitude},10mi"
-        count: msg.match[1]
-      doLocation(msg, searchConfig)
+      location = "#{latitude},#{longitude},10mi"
+
+    doLocation(msg, location)
