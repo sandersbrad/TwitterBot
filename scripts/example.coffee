@@ -196,4 +196,4 @@ module.exports = (robot) ->
     doUserRandom(msg)
 
   robot.respond /show (.*) retweets tweets by (.*)/i, (msg) ->
-    doUserRandom(msg)
+    doUserRetweets(msg)
