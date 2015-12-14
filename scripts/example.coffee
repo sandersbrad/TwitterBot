@@ -90,6 +90,31 @@ doUser = (msg) ->
 
     return msg.send response
 
+doUserRandom = (msg) ->
+  username = msg.match[2]
+  return if !username
+
+  twit = getTwit()
+  num_tweets = parseInt(msg.match[1])
+  count = 100
+  searchConfig =
+    screen_name: username,
+    count: count
+
+  twit.get 'statuses/user_timeline', searchConfig, (err, statuses) ->
+    return msg.send "Error retrieving tweets!" if err
+    return msg.send "No results returned!" unless statuses?.length
+
+    response = ''
+    i = 0
+    msg.send "Random tweets from #{statuses[0].user.screen_name}"
+    for tweet, i in num_tweets
+      randomNum = @_randomNum(num_tweets)
+      response += "#{statuses[randomNum].text}"
+      response += "\n" if i != num_tweets-1
+
+    return msg.send response
+
 doTweet = (msg, tweet) ->
   return if !tweet
   tweetObj = status: tweet
@@ -102,6 +127,9 @@ doTweet = (msg, tweet) ->
       id = reply.id_str
       if (username && id)
         msg.send "https://www.twitter.com/#{username}/status/#{id}"
+
+_randomNum: (max,min=0) ->
+  return Math.floor(Math.random() * (max - min) + min)
 
 module.exports = (robot) ->
   robot.respond /twitter (\S+)\s*(.+)?/i, (msg) ->
@@ -140,3 +168,6 @@ module.exports = (robot) ->
 
   robot.respond /show (.*) new tweets by (.*)/i, (msg) ->
     doUser(msg)
+
+  robot.respond /show (.*) random tweets by (.*)/i, (msg) ->
+    doUserRandom(msg)
