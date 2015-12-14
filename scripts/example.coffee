@@ -154,7 +154,6 @@ doLocation = (msg, location) ->
     return msg.send "Error retrieving tweets!" if err
     return msg.send "No results returned!" unless reply?.statuses?.length
     statuses = reply.statuses
-    msg.send statuses.toString()
     response = ''
     i = 0
     for status, i in statuses
