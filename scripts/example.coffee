@@ -207,7 +207,7 @@ module.exports = (robot) ->
       latitude = '' + location.lat
       longitude = '' + location.lng
       searchConfig =
-        query: 'tar heels'
+        q: 'tar heels'
         geocode: "#{latitude},#{longitude},10mi",
         count: msg.match[1]
       doLocation(msg, searchConfig)
