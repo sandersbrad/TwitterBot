@@ -128,8 +128,7 @@ doUserRandom = (msg) ->
   twit = getTwit()
   num_tweets = parseInt(msg.match[1])
   searchConfig =
-    screen_name: username,
-    count: count
+    screen_name: username
 
   twit.get 'statuses/user_timeline', searchConfig, (err, statuses) ->
     return msg.send "Error retrieving tweets!" if err
