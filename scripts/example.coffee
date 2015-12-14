@@ -149,6 +149,30 @@ doLocation = (msg, location) ->
     q: query
     geocode: location
     count: count
+    result_type: recent
+    lang: en
+
+  twit.get 'search/tweets', searchConfig, (err, reply) ->
+    return msg.send "Error retrieving tweets!" if err
+    return msg.send "No results returned!" unless reply?.statuses?.length
+    statuses = reply.statuses
+    response = ''
+    i = 0
+    for status, i in statuses
+      response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
+      response += "\n" if i != count-1
+
+    return msg.send response
+
+doMostPopular = (msg) ->
+  twit = getTwit()
+  count = msg.match[1]
+  query = msg.match[2]
+  searchConfig =
+    q: query
+    count: count
+    result_type: popular
+    lang: en
 
   twit.get 'search/tweets', searchConfig, (err, reply) ->
     return msg.send "Error retrieving tweets!" if err
@@ -215,3 +239,6 @@ module.exports = (robot) ->
       longitude = '' + loc.lng
       location = "#{latitude},#{longitude},10mi"
       doLocation(msg, location)
+
+  robot.respond /show (.*) most popular tweets about (.*)/i, (msg) ->
+    doMostPopular(msg)
