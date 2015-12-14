@@ -141,9 +141,9 @@ doUserRandom = (msg) ->
     return msg.send response
 
 doLocation = (msg) ->
-  searchString = msg[2]
+  searchString = msg.match[2]
 
-  msg.send 'function called'
+  msg.send searchString
 
   geocoder.geocode searchString, (err, data) ->
     msg.send err if err?
