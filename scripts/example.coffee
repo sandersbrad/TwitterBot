@@ -212,7 +212,7 @@ module.exports = (robot) ->
     geocoder.geocode msg.match[2], (err, data) ->
       msg.send 'geocoder called'
       loc = data.results[0].geometry.location
-      latitude = '' + location.lat
-      longitude = '' + location.lng
+      latitude = '' + loc.lat
+      longitude = '' + loc.lng
       location = "#{latitude},#{longitude},10mi"
       that.doLocation(msg, location)
