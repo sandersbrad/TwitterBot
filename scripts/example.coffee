@@ -160,15 +160,13 @@ doLocation = (msg) ->
   twit.get 'search/tweets', searchConfig, (err, reply) ->
     return msg.send "Error retrieving tweets!" if err
     return msg.send "No results returned!" unless reply?.statuses?.length
-
+    msg.seng 'getting here'
     statuses = reply.statuses
     i = 0
     for status, i in statuses
       response += "#{i + 1}. **@#{status.user.screen_name}**: #{status.text}"
       response += "\n" if i != count-1
-
-    msg.send 'getting here'
-    msg.send response
+    return msg.send response
 
 # doTweet = (msg, tweet) ->
 #   return if !tweet
